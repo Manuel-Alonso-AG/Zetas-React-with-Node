@@ -1,10 +1,14 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
 
 function Login() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const auth = useAuth();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,6 +22,8 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
+    auth.login(formData);
+    navigate("/home");
   };
 
   return (

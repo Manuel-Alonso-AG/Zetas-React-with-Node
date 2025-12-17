@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -8,6 +10,11 @@ function Register() {
     password: "",
     confirmPassword: "",
   });
+
+  const auth = useAuth();
+  const navigate = useNavigate();
+
+  let error = false;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,6 +27,7 @@ function Register() {
     switch (name) {
       case "confirmPassword":
         if (value !== formData["password"]) {
+          error = true;
           console.log(
             "Error, contraseña diferente " + value + " " + formData["password"]
           );
@@ -28,6 +36,7 @@ function Register() {
 
       case "confirmEmail":
         if (value !== formData["email"]) {
+          error = true;
           console.log(
             "Error, contraseña diferente " + value + " " + formData["email"]
           );
@@ -41,6 +50,11 @@ function Register() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
+    if (error) {
+      return;
+    }
+    auth.login(formData);
+    navigate("/home");
   };
 
   return (
