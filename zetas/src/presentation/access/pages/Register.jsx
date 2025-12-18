@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
+import Validator from "../../../utils/Validators";
+import InputAcces from "../components/InputAcces";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -14,97 +16,110 @@ function Register() {
   const auth = useAuth();
   const navigate = useNavigate();
 
-  let error = false;
+  const [errors, setErrors] = useState({
+    userName: [],
+    email: [],
+    confirmEmail: [],
+    password: [],
+    confirmPassword: [],
+  });
+
+  const validateField = (name, value) => {
+    if (name === "userName") {
+      const v = new Validator(value).isLength({ min: 3, max: 8 });
+      setErrors((prev) => ({ ...prev, userName: v.getErrors() }));
+    }
+    if (name === "email") {
+      const v = new Validator(value).isEmail();
+      setErrors((prev) => ({ ...prev, email: v.getErrors() }));
+    }
+    if (name === "confirmEmail") {
+      const v = new Validator(value).matches(formData.email);
+      setErrors((prev) => ({ ...prev, confirmEmail: v.getErrors() }));
+    }
+    if (name === "password") {
+      const v = new Validator(value).containNumbers().isLength({ min: 4 });
+      setErrors((prev) => ({ ...prev, password: v.getErrors() }));
+    }
+    if (name === "confirmPassword") {
+      const v = new Validator(value).matches(formData.password);
+      setErrors((prev) => ({ ...prev, confirmPassword: v.getErrors() }));
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-
-    switch (name) {
-      case "confirmPassword":
-        if (value !== formData["password"]) {
-          error = true;
-          console.log(
-            "Error, contraseña diferente " + value + " " + formData["password"]
-          );
-        }
-        break;
-
-      case "confirmEmail":
-        if (value !== formData["email"]) {
-          error = true;
-          console.log(
-            "Error, contraseña diferente " + value + " " + formData["email"]
-          );
-        }
-        break;
-      default:
-        break;
-    }
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    validateField(name, value); // feedback instantáneo
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-    if (error) {
-      return;
+    validateField("userName", formData.userName);
+    validateField("email", formData.email);
+    validateField("confirmEmail", formData.confirmEmail);
+    validateField("password", formData.password);
+    validateField("confirmPassword", formData.confirmPassword);
+
+    if (errors.email.length === 0 && errors.password.length === 0) {
+      console.log("Formulario válido", formData);
+      auth.login(formData);
+      navigate("/home");
     }
-    auth.login(formData);
-    navigate("/home");
   };
 
   return (
-    <form onSubmit={handleSubmit} className="card--form">
+    <div className="card--form">
       <h2>Registra una cuenta en Zetas.com</h2>
-      <input
-        type="text"
-        className="input--form"
-        name="userName"
-        id="userName"
-        placeholder="Nombre de usuario"
-        onChange={handleChange}
-      />
-      <p></p>
-      <input
-        type="email"
-        className="input--form"
-        name="email"
-        id="email"
-        placeholder="Correo electronico"
-        onChange={handleChange}
-      />
+      <form onSubmit={handleSubmit}>
+        <InputAcces
+          type="text"
+          idName="userName"
+          placeholder="Nombre de usuario"
+          handleChange={handleChange}
+          value={formData.userName}
+          errors={errors.userName}
+        />
 
-      <input
-        type="email"
-        className="input--form"
-        name="confirmEmail"
-        id="confirmEmail"
-        placeholder="Confirmar correo electronico"
-        onChange={handleChange}
-      />
-      <p></p>
-      <input
-        type="password"
-        className="input--form"
-        name="password"
-        id="password"
-        placeholder="Contraseña"
-        onChange={handleChange}
-      />
-      <input
-        type="password"
-        className="input--form"
-        name="confirmPassword"
-        id="confirmPassword"
-        placeholder="Confirmar contraseña"
-        onChange={handleChange}
-      />
-      <button type="submit">Registarte</button>
-    </form>
+        <InputAcces
+          type="email"
+          idName="email"
+          placeholder="Correo electronico"
+          handleChange={handleChange}
+          value={formData.email}
+          errors={errors.email}
+        />
+
+        <InputAcces
+          type="email"
+          idName="confirmEmail"
+          placeholder="Confirmar correo electronico"
+          handleChange={handleChange}
+          value={formData.confirmEmail}
+          errors={errors.confirmEmail}
+        />
+
+        <InputAcces
+          type="password"
+          idName="password"
+          placeholder="Contraseña"
+          handleChange={handleChange}
+          value={formData.password}
+          errors={errors.password}
+        />
+
+        <InputAcces
+          type="password"
+          idName="confirmPassword"
+          placeholder="Confirmar contraseña"
+          handleChange={handleChange}
+          value={formData.confirmPassword}
+          errors={errors.confirmPassword}
+        />
+
+        <button type="submit">Registarte</button>
+      </form>
+    </div>
   );
 }
 

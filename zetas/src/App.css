@@ -46,16 +46,21 @@
 }
 
 .input--form {
+  width: 100%;
   background-color: #242424;
   border: 1px solid transparent;
-  padding: 1rem;
+  padding: 0.75rem 1rem;
   border-radius: 1rem;
+  font-size: 1rem;
   margin-block: 0.5rem;
-  transition: border-color 0.25s;
+  transition: border-color 220ms ease, box-shadow 220ms ease;
+  outline: none;
+  box-sizing: border-box;
 }
 
 .input--form:hover {
   border-color: #646cff;
+  box-shadow: 0 0 0 3px #4a90e21a;
 }
 .input--form:focus,
 .input--form:focus-visible {
@@ -64,4 +69,40 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.input--wrapper {
+  margin-bottom: 1.25rem;
+}
+
+.input--error {
+  max-height: 0;
+  opacity: 0;
+  color: #e64545;
+  font-size: 0.875rem;
+  transform: translateY(-8px);
+  overflow: hidden;
+  transition: max-height 220ms ease, opacity 220ms ease, transform 220ms ease,
+    margin-top 220ms ease;
+  margin-top: 0;
+}
+
+.input--error.show {
+  max-height: 200px;
+  opacity: 1;
+  transform: translateY(0);
+  margin-top: 0.5rem;
+}
+
+.input--error p {
+  margin: 0.25rem 0;
+  padding-left: 0.25rem;
+}
+
+.input--error p:first-child {
+  margin-top: 0;
+}
+
+.input--error p:last-child {
+  margin-bottom: 0;
 }
