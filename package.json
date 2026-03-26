@@ -1,0 +1,25 @@
+{
+  "name": "zetas-page",
+  "version": "1.0.0",
+  "description": "Aplicacion POS de zetas",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --parallel -r run dev",
+    "build": "pnpm -r run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "POS",
+    "ZETAS",
+    "React",
+    "Node",
+    "Typescript"
+  ],
+  "author": "Alons",
+  "license": "ISC",
+  "packageManager": "pnpm@10.33.0",
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "typescript": "^6.0.2"
+  }
+}
