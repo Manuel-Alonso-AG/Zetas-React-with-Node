@@ -1,10 +1,13 @@
 export interface Product {
   id: string;
   name: string;
-  price: number;
+  price: number; // Utilizar en centavos
   stock: number;
+  categoryId: string;
   createdAt: Date;
 }
+
+export type CreateProduct = Omit<Product, "id" | "createdAt">; // Crea un tipo de la interfaz de producto pero sin los campos dados
 
 export type Role = "admin" | "cashier";
 
@@ -13,6 +16,11 @@ export interface User {
   name: string;
   email: string;
   role: Role;
+}
+
+export interface CartItem {
+  product: Product;
+  quantity: number;
 }
 
 export interface Sale {

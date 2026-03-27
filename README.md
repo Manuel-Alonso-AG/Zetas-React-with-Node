@@ -20,3 +20,13 @@ Tecnologias:
 |    Root    | Front-end | Back-end |
 | :--------: | :-------: | :------: |
 | typescript |   React   |   Node   |
+
+Entidades:
+
+|  Nombre  |            descripcion             |
+| :------: | :--------------------------------: |
+| Product  |        Producto del negocio        |
+| Category |             Categorias             |
+| Usuario  | Administrador o cajero del sistema |
+|   Cart   |         Carrito de compra          |
+|   Sale   |   Ventas, junto con sus detalles   |

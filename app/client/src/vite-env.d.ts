@@ -1,3 +1,4 @@
+/** Es para elimiar los errores del tipado. Por el momento no se realmente como funciona */
 /// <reference types="vite/client" />
 
 // Imágenes

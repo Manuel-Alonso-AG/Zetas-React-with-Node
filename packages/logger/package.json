@@ -1,11 +1,11 @@
 {
-  "name": "@zetas/types",
+  "name": "@zetas/logger",
   "version": "1.0.0",
+  "description": "",
   "private": true,
-  "main": "./src/index.js",
-  "types": "./src/index.js",
+  "main": "./src/index.ts",
   "exports": {
-    ".": "./src/index.js"
+    ".": "./src/index.ts"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
