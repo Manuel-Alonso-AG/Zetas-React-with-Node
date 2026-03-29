@@ -24,17 +24,19 @@ export function validateServerEnv() {
 }
 
 // Validador para el frontend
+/** TODO: Cambiarlo mas adelante */
 export function validateClientEnv() {
-  const required = ["VITE_API_URL"];
+  const required = ["VITE_API_URL", "VITE_PORT"];
   const missing = required.filter((key) => !import.meta.env[key]);
 
   if (missing.length > 0) {
     throw new Error(
-      `Variables de entorno faltantes en apps/web: ${missing.join(", ")}`,
+      `Variables de entorno faltantes en app/client/.env: ${missing.join(", ")}`,
     );
   }
 
   return {
     apiUrl: import.meta.env.VITE_API_URL as string,
+    port: import.meta.env.VITE_PORT as number,
   };
 }
